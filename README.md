@@ -10,20 +10,11 @@
   ```
 * **Outcome**: meson successfully installs the compiled artifacts.
 
-### 2. Missing helloworld Executable
+### 2. Empty Trace Folder
 
-* **Issue**: After running `ninja`, the executable was missing.
-* **Solution**:
-
-  ```bash
-  cd /home/eagle/vpp/build-root/build-vpp-native/external/src-dpdk
-  rm -rf build
-  meson setup build
-  cd build
-  meson configure -Dexamples=helloworld
-  ninja
-  ```
-* **Outcome**: Rebuild successfully generated the executable.
+* **Issue**: After running lttng script, the ust folder of trace is empty.
+* **Solution**: Clean install lttng stable ppa version with [LTTng Stable 2.13 PPA installation Guide](https://lttng.org/docs/v2.13/#doc-ubuntu-ppa) 
+* **Outcome**: Trace has captured preloaded fuctions.
 
 ### 3. PATH Configuration for Meson
 
