@@ -1,5 +1,3 @@
-# Internship
-
 ## Challenges and Solutions
 
 ### 1. Outdated Meson Version
