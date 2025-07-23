@@ -4,6 +4,7 @@
 
 * **Issue**: Encountering No module named 'mesonbuild.machinefile' in running `meson install` after ninja command.
 * **Solution**: uninstall all meson versions that are installed with pip or apt and their relative libraries in usr/ folder, then install it with root priviledges (not as a superuser) by pip.
+
   ```bash
   sudo pip install meson
   ```
