@@ -33,6 +33,15 @@
 * **Solution**: Added `$HOME/.local/bin` to PATH (see Solution above).
 * **Outcome**: Correct version of Meson used.
 
+### 1. Missing Meson Module
+* **Issue**: Encountering No module named 'mesonbuild.machinefile' in running `meson install` after ninja command.
+* **Solution**: uninstall all meson versions that are installed with pip or apt and their relative libraries in usr/ folder, then install it with root priviledges (not as a superuser) by pip.
+
+  ```bash
+  sudo pip install meson
+  ```
+* **Outcome**: meson successfully installs the compiled artifacts.
+
 ## Conclusion
 
 This project successfully configured HugePages and ran the DPDK helloworld example on CPU cores 0-3. Challenges were resolved through version upgrades and rebuilds. The DPDK environment is confirmed operational.
