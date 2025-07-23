@@ -16,12 +16,6 @@
 * **Solution**: Clean install lttng stable ppa version with [LTTng Stable 2.13 PPA installation Guide](https://lttng.org/docs/v2.13/#doc-ubuntu-ppa) 
 * **Outcome**: Trace has captured preloaded fuctions.
 
-### 3. PATH Configuration for Meson
-
-* **Issue**: Installed Meson was not in system's PATH.
-* **Solution**: Added `$HOME/.local/bin` to PATH (see Solution above).
-* **Outcome**: Correct version of Meson used.
-
 ## Conclusion
 
 This project successfully configured HugePages and ran the DPDK helloworld example on CPU cores 0-3. Challenges were resolved through version upgrades and rebuilds. The DPDK environment is confirmed operational.
