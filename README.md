@@ -20,6 +20,7 @@
 
 * **Issue**: Call stack views ( Flame Graph & Flame Graph Selection) are empty.
 * **Solution**: install java-21 and set as deafult version of java.
+
   ```bash
   sudo apt install openjdk-21-jdk -y
   ```
