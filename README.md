@@ -19,7 +19,10 @@
 ### 3. Null Trace Compass Views
 
 * **Issue**: Call stack views ( Flame Graph & Flame Graph Selection) are empty.
-* **Solution**: install java-21 and set it as deafult version of java.
+* **Solution**: install java-21 and set as deafult version of java.
+  ```bash
+  sudo apt install openjdk-21-jdk -y
+  ```
 * **Outcome**: Call stack gets visible (still needs sometime based on your Ram and CPU).
 
 ### 4. Missing Function Names
