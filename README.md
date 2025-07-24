@@ -27,14 +27,3 @@
 * **Issue**: some functions are available only by their address not their names.
 * **Solution**: shut down tcpreplay and testpmd before stopping and destroying lttng.
 * **Outcome**: Function entries and exits get equal, then you may see the all the function names.
-
-
-## Conclusion
-
-This project successfully configured HugePages and ran the DPDK helloworld example on CPU cores 0-3. Challenges were resolved through version upgrades and rebuilds. The DPDK environment is confirmed operational.
-
-## References
-
-* [DPDK Documentation](https://doc.dpdk.org)
-* [Memif Guide](https://doc.dpdk.org/guides/nics/memif.html)
-* VPP Source Code: `/home/eagle/vpp`
