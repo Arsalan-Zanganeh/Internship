@@ -1,5 +1,7 @@
 # Dpdk-TAP-Driver
 
+This repository contains dpdk TAP driver and test-pmd application analysis with lttng tool and trace compass gui.
+
 ## System Specifications
 
 The project was executed on the following system:
