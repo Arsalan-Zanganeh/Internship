@@ -1,3 +1,26 @@
+## System Specifications
+
+The project was executed on the following system:
+
+```bash
+Architecture: x86_64
+CPU op-mode(s): 32-bit, 64-bit
+Byte Order: Little Endian
+Address sizes: 39 bits physical, 48 bits virtual
+CPU(s): 4
+On-line CPU(s) list: 0-3
+Thread(s) per core: 2
+Core(s) per socket: 2
+Socket(s): 1
+NUMA node(s): 1
+Vendor ID: GenuineIntel
+Model name: Intel(R) Core(TM) i7-4500U CPU @ 1.80GHz
+CPU MHz: 1000.000
+CPU max MHz: 3000.0000
+...
+```
+
+
 ## Challenges and Solutions
 
 ### 1. Missing Meson Module
