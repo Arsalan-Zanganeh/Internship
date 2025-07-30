@@ -7,16 +7,16 @@ Architecture: x86_64
 CPU op-mode(s): 32-bit, 64-bit
 Byte Order: Little Endian
 Address sizes: 39 bits physical, 48 bits virtual
-CPU(s): 4
-On-line CPU(s) list: 0-3
+CPU(s): 8
+On-line CPU(s) list: 0-7
 Thread(s) per core: 2
-Core(s) per socket: 2
+Core(s) per socket: 4
 Socket(s): 1
 NUMA node(s): 1
 Vendor ID: GenuineIntel
-Model name: Intel(R) Core(TM) i7-4500U CPU @ 1.80GHz
-CPU MHz: 1000.000
-CPU max MHz: 3000.0000
+Model name: Intel(R) Core(TM) i7-1065G7 CPU @ 1.30GHz
+CPU min MHz: 400.000
+CPU max MHz: 3900.0000
 ...
 ```
 
