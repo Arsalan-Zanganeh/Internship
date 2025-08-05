@@ -187,5 +187,5 @@ The relative chart that shows why stalls occur.
 * **Issue**: some functions are available only by their address not their names.
 * **Solution**: click on symbol mapping button shown below (available for flame chart, flame graph (new callstack), ...) then check `Use custom target root directory` without choosing any directory and press ok.
   
-  <img title="" src="file:///home/arsalan/.config/marktext/images/2025-08-06-02-23-12-image.png" alt="" width="79">
+  
 * **Outcome**: Function names  will be loaded completely for each window that are opened afterwards.
