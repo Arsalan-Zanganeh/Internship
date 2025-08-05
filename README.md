@@ -23,6 +23,43 @@ CPU min MHz: 400.000
 CPU max MHz: 3900.0000
 ...
 ```
+
+## Core Isolation
+
+IRQs (both software and hardware) may cause context switches, degrading dpdk aplication performance. This Effect can be decreasesd by defining the rules for each CPU core but not fully deleted as dpdk does not fully bypass kernel.
+
+```bash
+sudo nano /etc/default/grub
+```
+
+Grub configuration file values should be changed to assign differnet jobs to different cores.
+
+```bash
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash isolcpus=4,5 nohz_full=4,5 rcu_nocbs=4,5 irqaffinity=0,1,2,3,6,7"
+```
+
+Value of `GRUB_CMDLINE_LINUX_DEFAULT` variable changes:
+
+`isolcpus=4,5` isolates CPUs 4 and 5 from the general Linux scheduler.
+
+`nohz_full=4,5` enables full tickless mode on CPUs 4 and 5.
+
+`rcu_nocbs=4,5` offloads RCU (Read-Copy-Update) callbacks from CPUs 4 and 5.
+
+`irqaffinity=0,1,2,3,6,7` restricts hardware interrupt handling to CPUs 0-3 and 6-7.
+
+```bash
+sudo update-grub
+```
+
+This command updates the grub bootloader configuration file and regenarates `/boot/grub/grub.cfg` file.
+
+```bash
+sudo reboot
+```
+
+Changes will be done after restarting and can be assured by `dmesg | grep isolcpus`.  
+
 # Tracing Analysis - UDP Filtering
 
 ## Event Density Drops
@@ -64,7 +101,7 @@ The main distribution is between **140 ns** to **10 us**.
 ## Hot Code Paths
 
 | Function                        | ratio | Responsibility                           |
-|---------------------------------|-------|------------------------------------------|
+| ------------------------------- | ----- | ---------------------------------------- |
 | rte_net_get_ptype               | 51.7% | Determine packet type by parsing headers |
 | rte_ethdev_trace_rx_burst_empty | 60.0% | Trace an empty RX burst (0 packets)      |
 | pmd_rx_burst                    | 55.2% | Poll RX queue and fetch received packets |
@@ -80,7 +117,7 @@ The main distribution is between **140 ns** to **10 us**.
 ## Practical mitigation options
 
 | Mitigation                     | Applicable Context        | Implementation                                     |
-|--------------------------------|---------------------------|----------------------------------------------------|
+| ------------------------------ | ------------------------- | -------------------------------------------------- |
 | Process priority surge         | networking environments   | nice() or setpriority() to change process priority |
 | CPU core isolation             | deterministic performance | At boot time, isolate core via kernel parameters   |
 | Pre-slice traffic in generator | Synthetic workload        | Send UDP frames to a dedicated TAP.                |
@@ -109,7 +146,6 @@ The relative chart that shows why stalls occur.
 
 > ▸ _Both interrupt and wait for CPU will cause delay._
 
-
 ![image6](Pics/image6.png)
 
 <br>
@@ -119,11 +155,13 @@ The relative chart that shows why stalls occur.
 ### 1. Missing Meson Module
 
 * **Issue**: Encountering No module named 'mesonbuild.machinefile' in running `meson install` after `ninja` command.
-* **Solution**: uninstall all meson versions that are installed with pip or apt and their relative libraries in usr/ folder, then install it with root priviledges (not as a superuser) by pip.
 
+* **Solution**: uninstall all meson versions that are installed with pip or apt and their relative libraries in usr/ folder, then install it with root priviledges (not as a superuser) by pip.
+  
   ```bash
   sudo pip install meson
   ```
+
 * **Outcome**: meson successfully installs the compiled artifacts.
 
 ### 2. Empty Trace Folder
@@ -135,15 +173,19 @@ The relative chart that shows why stalls occur.
 ### 3. Null Trace Compass Views
 
 * **Issue**: Call stack views ( Flame Graph & Flame Graph Selection) are empty.
-* **Solution**: install java-21 and set as deafult version of java.
 
+* **Solution**: install java-21 and set as deafult version of java.
+  
   ```bash
   sudo apt install openjdk-21-jdk -y
   ```
-* **Outcome**: Call stack gets visible (still needs sometime based on your Ram and CPU).
 
-### 4. Missing Function Names
+* **Outcome**: Call stack gets visible (still needs sometime based on host ram and CPU).
+
+### 4. Incomplete Symbol Mapping
 
 * **Issue**: some functions are available only by their address not their names.
-* **Solution**: shut down tcpreplay and testpmd before stopping and destroying lttng.
-* **Outcome**: Function entries and exits get equal, then you may see the all the function names.
+* **Solution**: click on symbol mapping button shown below (available for flame chart, flame graph (new callstack), ...) then check `Use custom target root directory` without choosing any directory and press ok.
+  
+  <img title="" src="file:///home/arsalan/.config/marktext/images/2025-08-06-02-23-12-image.png" alt="" width="79">
+* **Outcome**: Function names  will be loaded completely for each window that are opened afterwards.
