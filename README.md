@@ -62,9 +62,11 @@ Changes will be done after restarting and can be assured by `dmesg | grep isolcp
 
 # Tracing Analysis - UDP Filtering
 
-## Event Density Drops
+13 milion Events captured with 887 nanosecond average standard deviation. Optimization rule increased events captured by 11.0% and decreased average of standard deviation by 88.6%.
 
-It is obvious event density drops to zero when context switch happens for lcore 5 without regrads to the function that is being called, it should wait for another switch to load dpdk-worker5 application variables.
+## Alternative Density Shift
+
+Event density drops to zero when context switch happens for lcore 5 without regrads to the function that is being called, it should wait for another switch to load dpdk-worker5 application variables. It is worthy to point out pmd_rx_burst helper chain contains more events against pmd_tx_bursts' that will cause sigmoid dense shift while their call stack is conversed.
 
 > ▸ _As specified OS uses CFS (Completely Fair Scheduling) that works based on priority scheduling, it is more probable for some threads that are being ran with lower priority will experince more context switches (the reason of high standard deviation for several functions or huge self time/duration in flame graph) for instance: `rte_net_get_ptype`, `pmd_rx_burst`, `pmd_tx_burst`_
 
@@ -72,17 +74,6 @@ It is obvious event density drops to zero when context switch happens for lcore 
 
 ![image1](Pics/image1.png)
 
-<br>
-
-## PMD Rx vs Tx burst
-
-pmd_rx_bursts contains more events against pmd_tx_bursts while their call stack is vice versa.
-
-> ▸ _Consecutive pmd_rx_bursts can cause density increase like a sigmoid function._
-
----
-
-![image2](Pics/image2.png)
 
 <br>
 
@@ -101,16 +92,16 @@ The main distribution is between **140 ns** to **10 us**.
 ## Hot Code Paths
 
 | Function                        | ratio | Responsibility                           |
-| ------------------------------- | ----- | ---------------------------------------- |
-| rte_net_get_ptype               | 51.7% | Determine packet type by parsing headers |
+| ------------------------------- |-------| ---------------------------------------- |
+| rte_net_get_ptype               | 52.8% | Determine packet type by parsing headers |
 | rte_ethdev_trace_rx_burst_empty | 60.0% | Trace an empty RX burst (0 packets)      |
-| pmd_rx_burst                    | 55.2% | Poll RX queue and fetch received packets |
+| pmd_rx_burst                    | 97.7% | Poll RX queue and fetch received packets |
 
 > ▸ _These paths can be found via functions with two layers upper towards `tap_trigger_cb` (can be called at last layer of call stack because of its event driven nature) that have bigger ratio of self time over duration than others._
 
 ---
 
-![image4](Pics/image4.png)
+![image8](Pics/image8.png)
 
 <br>
 
@@ -140,13 +131,15 @@ Another trace was done with both kernel and userspace involved to prove the idea
 
 <br>
 
-## Flame Chart
+## Receiving Helper Chain
 
-The relative chart that shows why stalls occur.
+`pmd_rx_burst` is called whenever `tap_trigger_cb` interrupt occurs. Within one burst there could be different calls of `rte_pktmbuf_alloc` with `rte_net_get_ptype` followed which matches the number of frames received on tap driver. 
 
-> ▸ _Both interrupt and wait for CPU will cause delay._
+> ▸ _Flame chart includes `rte_constant_bswap16` calls inside ptype function but source code does not include this function. Actually they are called via `rte_cpu_to_be16`. This routine is neccessary becuase CPU byte order (little Endian as specified) differs from Network byte order._
 
-![image6](Pics/image6.png)
+---
+
+![image9](Pics/image9.png)
 
 <br>
 
