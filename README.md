@@ -50,15 +50,10 @@ Value of `GRUB_CMDLINE_LINUX_DEFAULT` variable changes:
 
 ```bash
 sudo update-grub
-```
-
-This command updates the grub bootloader configuration file and regenarates `/boot/grub/grub.cfg` file.
-
-```bash
 sudo reboot
 ```
 
-Changes will be done after restarting and can be assured by `dmesg | grep isolcpus`.  
+`sudo update-grub` updates the grub bootloader configuration file and regenarates `/boot/grub/grub.cfg` file. Changes will finally take place after `sudo reboot` that can be assured by `dmesg | grep isolcpus`.
 
 # Tracing Analysis - UDP Filtering
 
@@ -182,4 +177,4 @@ Another trace was done with both kernel and userspace involved to prove the idea
 
   ![image7](Pics/image7.png)
 
-* **Outcome**: Function names  will be loaded completely for each window that are opened afterwards.
+* **Outcome**: Function names  will be loaded completely for each window that is opened afterwards.
