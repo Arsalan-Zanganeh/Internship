@@ -72,18 +72,6 @@ Event density drops to zero when context switch happens for lcore 5 without regr
 
 <br>
 
-## Function Duration Distribution
-
-The main distribution is between **140 ns** to **10 us**.
-
-> ▸ _There are only 7 function that lasted longer than 100 us and the longest should belong to a layer zero function as expected: `pkt_burst_io_forward`_
-
----
-
-![image3](Pics/image3.png)
-
-<br>
-
 ## Hot Code Paths
 
 | Function                        | ratio | Responsibility                           |
@@ -114,7 +102,7 @@ The main distribution is between **140 ns** to **10 us**.
 
 <br>
 
-## Control Flow
+## Context Switch
 
 Another trace was done with both kernel and userspace involved to prove the idea that was discussed earlier.
 
@@ -123,6 +111,16 @@ Another trace was done with both kernel and userspace involved to prove the idea
 ---
 
 ![image5](Pics/image5.png)
+
+<br>
+
+## Throughput
+
+Each `tap_trigger_cb` means a frame is received  from NIC (tap driver) causing `rte_pktmbuf_alloc`, `rte_net_get_ptype` subroutine activation per each frame. The worst case happens when tap trigger is called on dpdk/worker5 directly.
+
+> ▸ _Processing 8 packets took microseconds (including wasted time between `pkt_burst_io_forward` calls), application is capable of receiving and sending packets per second. Assuming mtu is set to as default the maximum forwarding would be byte per second._
+
+![image10](Pics/image10.png)
 
 <br>
 
