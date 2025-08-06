@@ -118,9 +118,9 @@ Another trace was done with both kernel and userspace involved to prove the idea
 
 Each `tap_trigger_cb` means a frame is received  from NIC (tap driver) causing `rte_pktmbuf_alloc`, `rte_net_get_ptype` subroutine activation per each frame. The worst case happens when tap trigger is called on dpdk/worker5 directly.
 
-> ▸ _Processing 8 packets took microseconds (including wasted time between `pkt_burst_io_forward` calls), application is capable of receiving and sending packets per second. Assuming mtu is set to as default the maximum forwarding would be byte per second._
+> ▸ _Processing 8 packets took 176.3 microseconds (12 nanoseconds of wasted time between `pkt_burst_io_forward` calls is negligible) concluding application is capable of receiving and sending 5672 packets per second. Assuming mtu is set to 1500 as default the maximum forwarding would be 8.5 gigabyte per second. VPP makes great difference becuase of linear rate packet processing (larger packets mean higher throughput)._
 
-![image10](Pics/image10.png)
+![image11](Pics/image11.png)
 
 <br>
 
