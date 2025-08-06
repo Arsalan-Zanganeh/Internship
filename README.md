@@ -189,4 +189,4 @@ The relative chart that shows why stalls occur.
 
   ![image7](Pics/image7.png)
 
-* **Outcome**: Function names  will be loaded completely for each window that are opened afterwards.
+* **Outcome**: Function names  will be loaded completely for each window that is opened afterwards.
