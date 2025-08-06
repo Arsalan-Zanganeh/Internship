@@ -185,7 +185,8 @@ The relative chart that shows why stalls occur.
 ### 4. Incomplete Symbol Mapping
 
 * **Issue**: some functions are available only by their address not their names.
-* **Solution**: click on symbol mapping button shown below (available for flame chart, flame graph (new callstack), ...) then check `Use custom target root directory` without choosing any directory and press ok.
-  
-  
+* **Solution**: click on symbol mapping button shown below (available for flame chart, flame graph, ...) then check `Use custom target root directory` without choosing any directory and press ok.
+
+  ![image7](Pics/image7.png)
+
 * **Outcome**: Function names  will be loaded completely for each window that are opened afterwards.
